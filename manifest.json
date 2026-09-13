@@ -1,0 +1,16 @@
+{
+  "name": "BuJo",
+  "short_name": "BuJo",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0c0e",
+  "theme_color": "#0b0c0e",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPjxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPjx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+TkzwvdGV4dD48L3N2Zz4=",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
