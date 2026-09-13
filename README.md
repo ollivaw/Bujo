@@ -8,7 +8,7 @@
 
 </div>
 
-## 🩷 Why I Created This App
+## 🩷 Why I created this app
 
 I built this app to complement my physical bullet journal notebook.
 
