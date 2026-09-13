@@ -8,7 +8,7 @@
 
 </div>
 
-## 🩷 Why I created this app
+## 🩷 Why I Created This App
 
 I built this app to complement my physical bullet journal notebook.
 
@@ -18,10 +18,18 @@ Everything automatically resets at 2:00 AM—this intentional "expiration date" 
 
 ## ⚡ How It Works
 
-- **No Digital Clutter:** Automatically resets at 2:00 AM, keeping the space clean and preventing the accumulation of obsolete notes.
+- **Daily Clean Slate:** Everything you write will vanish forever at 2:00 AM, forcing a daily evening reflection ritual to migrate what actually matters into your physical notebook.
+- **No Digital Clutter:** Prevents the endless accumulation of obsolete notes and tasks.
 - **Local Storage:** All entries are stored locally on the device via `localStorage` without cloud tracking or external databases.
 - **Cross-Platform Access:** Works via browser or installable as a web app (PWA) on mobile and desktop.
 - **Minimal Interface:** Dark mode, dot-grid layout, monospace font, and `#f4b8e4` pink accents.
+
+## ✍️ Quick Usage Guide
+
+- **Tap to Complete:** Tap any item or checkbox `[ ]` to mark it as done `[x]` with a strikethrough effect. Tap again to uncheck.
+- **Add New Lines:** Press **Enter** on your keyboard to automatically spawn a new task line.
+- **Remove Items:** Delete the text in an empty line using **Backspace** to remove the checkbox completely.
+- **Automatic Reset:** All entries persist locally throughout the day and automatically clear at 2:00 AM.
 
 ![Ephemeral BuJo Page Screenshot](preview.png)
 
