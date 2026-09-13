@@ -12,7 +12,9 @@
 
 I built this app to complement my physical bullet journal notebook.
 
-I needed a quick, distraction-free digital space to capture tasks and notes on the go throughout the day if I don't have my physical notebook on hand.
+I needed a quick, distraction-free digital space to capture tasks and notes on the go throughout the day if I don't have my physical notebook on hand. 
+
+I don't use this app every day—on days when I have my physical journal with me, I don't need it at all. But when I'm away from paper, it serves as the ultimate temporary bridge.
 
 Everything automatically resets at 2:00 AM—this intentional "expiration date" forces you to reflect each evening and migrate only the relevant notes into your physical notebook before the digital page goes blank for a fresh start tomorrow.
 
@@ -26,10 +28,12 @@ Everything automatically resets at 2:00 AM—this intentional "expiration date" 
 
 ## ✍️ Quick Usage Guide
 
-- **Tap to Complete:** Tap any item or checkbox `[ ]` to mark it as done or "migrated to notebook" `[x]` with a strikethrough effect. Tap again to uncheck.
+- **Tap to Complete:** Tap any item or checkbox [ ] to mark it as done or "migrated to notebook" [x] with a strikethrough effect. Tap again to uncheck.
 - **Add New Lines:** Press **Enter** on your keyboard to automatically spawn a new task line.
 - **Remove Items:** Delete the text in an empty line using **Backspace** to remove the checkbox completely.
 - **Automatic Reset:** All entries persist locally throughout the day and automatically clear at 2:00 AM.
+
+> **💡 Pro Tip:** Set a manual alarm every night to check the page and migrate your entries before they're gone into the void 😬
 
 ![Ephemeral BuJo Page Screenshot](preview.png)
 
