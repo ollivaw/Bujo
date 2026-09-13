@@ -26,7 +26,7 @@ Everything automatically resets at 2:00 AM—this intentional "expiration date" 
 
 ## ✍️ Quick Usage Guide
 
-- **Tap to Complete:** Tap any item or checkbox `[ ]` to mark it as done `[x]` with a strikethrough effect. Tap again to uncheck.
+- **Tap to Complete:** Tap any item or checkbox `[ ]` to mark it as done or "migrated to notebook" `[x]` with a strikethrough effect. Tap again to uncheck.
 - **Add New Lines:** Press **Enter** on your keyboard to automatically spawn a new task line.
 - **Remove Items:** Delete the text in an empty line using **Backspace** to remove the checkbox completely.
 - **Automatic Reset:** All entries persist locally throughout the day and automatically clear at 2:00 AM.
