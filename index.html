@@ -6,7 +6,7 @@
   <title>BuJo</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0b0c0e">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHJlY3Qgd2lkdGg9IjI1YiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPjxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPjx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+TkzwvdGV4dD48L3N2Zz4=">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'><rect width='256' height='256' rx='60' fill='%230b0c0e'/><text x='128' y='170' font-size='150' text-anchor='middle'>📓</text></svg>">
 
   <style>
     :root {
@@ -18,6 +18,11 @@
       --dot-color: rgba(255, 255, 255, 0.15);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    /* Ocultar barra de scroll */
+    ::-webkit-scrollbar { display: none; }
+    html { -ms-overflow-style: none; scrollbar-width: none; }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -33,7 +38,14 @@
       max-width: 650px;
       width: 100%;
       margin: 0 auto;
-      padding: 16px 20px 140px 20px;
+      padding: 20px 20px 80px 20px;
+    }
+    .header-date {
+      color: var(--accent-color);
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-transform: capitalize;
     }
     .list-item {
       display: flex;
@@ -64,40 +76,35 @@
       width: 100%;
       word-break: break-word;
       white-space: pre-wrap;
+      resize: none;
+      overflow: hidden;
     }
     .item-input.done {
       text-decoration: line-through;
       color: var(--muted-color);
     }
-    .status-panel {
+    .timer-bar {
       position: fixed;
-      bottom: 15px;
-      right: 15px;
-      left: 15px;
-      max-width: 610px;
-      margin: 0 auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: var(--panel-bg);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 16px;
+      font-size: 13px;
+      text-align: center;
+      color: var(--accent-color);
     }
-    .stat-row { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 6px; }
-    .stat-value { color: var(--accent-color); font-weight: bold; }
-    .time-left { font-size: 13px; opacity: 0.85; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; margin-top: 6px; text-align: center; }
   </style>
 </head>
 <body>
 
-  <div class="container" id="editor-container"></div>
-
-  <div class="status-panel">
-    <div class="stat-row"><span>Caracteres:</span> <span id="char-count" class="stat-value">0</span></div>
-    <div class="stat-row"><span>Palabras:</span> <span id="word-count" class="stat-value">0</span></div>
-    <div class="stat-row"><span>Cerradas hoy:</span> <span id="closed-count" class="stat-value">0</span></div>
-    <div class="time-left" id="timer">Expira a las 2:00 AM</div>
+  <div class="container">
+    <div class="header-date" id="current-date"></div>
+    <div id="editor-container"></div>
   </div>
+
+  <div class="timer-bar" id="timer">Expira en 0h 0m (2:00 AM)</div>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -105,12 +112,21 @@
     }
 
     const container = document.getElementById('editor-container');
-    const charCount = document.getElementById('char-count');
-    const wordCount = document.getElementById('word-count');
-    const closedCount = document.getElementById('closed-count');
     const timerDisplay = document.getElementById('timer');
+    const dateDisplay = document.getElementById('current-date');
 
     let items = [];
+
+    function displayDate() {
+      const now = new Date();
+      const weekday = now.toLocaleDateString('es-ES', { weekday: 'long' });
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      
+      // Formato: Sábado, 13/09/2026
+      dateDisplay.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)}, ${day}/${month}/${year}`;
+    }
 
     function checkExpiration() {
       const lastReset = localStorage.getItem('bujo_last_reset');
@@ -121,7 +137,6 @@
 
       if (!lastReset || parseInt(lastReset) < prevReset.getTime()) {
         items = [{ type: 'task', text: '', done: false }];
-        localStorage.setItem('bujo_closed_today', '0');
         localStorage.setItem('bujo_last_reset', now.getTime().toString());
         saveItems();
       }
@@ -129,7 +144,6 @@
 
     function saveItems() {
       localStorage.setItem('bujo_items', JSON.stringify(items));
-      updateStats();
     }
 
     function loadItems() {
@@ -170,7 +184,6 @@
           autoResize(e.target);
           items[index].text = e.target.value;
 
-          // Si estás en una nota normal y escribes "- " o "- [", se convierte en casilla
           if (items[index].type === 'note' && (e.target.value.startsWith('- ') || e.target.value.startsWith('-['))) {
             items[index].type = 'task';
             items[index].text = e.target.value.replace(/^-\s?\[?\s?\]?/, '').trimStart();
@@ -222,19 +235,8 @@
 
     function toggleTask(index) {
       items[index].done = !items[index].done;
-      if (items[index].done) {
-        let closed = parseInt(localStorage.getItem('bujo_closed_today') || '0');
-        localStorage.setItem('bujo_closed_today', (closed + 1).toString());
-      }
       saveItems();
       render();
-    }
-
-    function updateStats() {
-      let fullText = items.map(i => i.text).join(' ');
-      charCount.textContent = fullText.length;
-      wordCount.textContent = fullText.trim() ? fullText.trim().split(/\s+/).length : 0;
-      closedCount.textContent = localStorage.getItem('bujo_closed_today') || '0';
     }
 
     function updateTimer() {
@@ -249,6 +251,7 @@
       timerDisplay.textContent = `Expira en ${hours}h ${mins}m (2:00 AM)`;
     }
 
+    displayDate();
     checkExpiration();
     loadItems();
     render();
