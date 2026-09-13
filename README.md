@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📓 Ephemeral BuJo Page
+## 📓 Ephemeral BuJo Page
 
 `A minimalist, ephemeral daily log for rapid capturing & intentional reflection.`
 
