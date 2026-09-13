@@ -6,13 +6,13 @@
   <title>BuJo</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0b0c0e">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPjxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPjx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+TkzwvdGV4dD48L3N2Zz4=">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+PHJlY3Qgd2lkdGg9IjI1YiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPjxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPjx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J+TkzwvdGV4dD48L3N2Zz4=">
 
   <style>
     :root {
       --bg-color: #0b0c0e;
       --text-color: #e2e8f0;
-      --accent-color: #38bdf8;
+      --accent-color: #f4b8e4; /* Rosa pastel 🩷 */
       --muted-color: #64748b;
       --panel-bg: #16181d;
       --dot-color: rgba(255, 255, 255, 0.15);
@@ -33,23 +33,24 @@
       max-width: 650px;
       width: 100%;
       margin: 0 auto;
-      padding: 20px;
-      padding-bottom: 140px;
+      padding: 16px 20px 140px 20px;
     }
     .list-item {
       display: flex;
       align-items: flex-start;
-      margin-bottom: 8px;
-      font-size: 20px;
-      line-height: 1.5;
+      margin-bottom: 10px;
+      font-size: 19px;
+      line-height: 1.4;
+      width: 100%;
     }
     .checkbox {
       user-select: none;
       cursor: pointer;
-      padding: 0 8px 0 0;
+      padding-right: 8px;
       font-weight: bold;
       color: var(--accent-color);
       flex-shrink: 0;
+      line-height: 1.4;
     }
     .item-input {
       flex: 1;
@@ -57,10 +58,12 @@
       border: none;
       outline: none;
       color: var(--text-color);
-      font-size: 20px;
+      font-size: 19px;
       font-family: inherit;
-      line-height: 1.5;
-      resize: none;
+      line-height: 1.4;
+      width: 100%;
+      word-break: break-word;
+      white-space: pre-wrap;
     }
     .item-input.done {
       text-decoration: line-through;
@@ -75,7 +78,7 @@
       margin: 0 auto;
       background: var(--panel-bg);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 12px 16px;
       font-size: 14px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
@@ -139,6 +142,11 @@
       }
     }
 
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    }
+
     function render() {
       container.innerHTML = '';
       items.forEach((item, index) => {
@@ -153,16 +161,19 @@
           row.appendChild(box);
         }
 
-        const input = document.createElement('input');
-        input.type = 'text';
+        const input = document.createElement('textarea');
+        input.rows = 1;
         input.className = 'item-input' + (item.done ? ' done' : '');
         input.value = item.text;
         
         input.oninput = (e) => {
+          autoResize(e.target);
           items[index].text = e.target.value;
-          if (items[index].type === 'note' && e.target.value.startsWith('- [')) {
+
+          // Si estás en una nota normal y escribes "- " o "- [", se convierte en casilla
+          if (items[index].type === 'note' && (e.target.value.startsWith('- ') || e.target.value.startsWith('-['))) {
             items[index].type = 'task';
-            items[index].text = e.target.value.replace(/^-\s?\[\s?\]?/, '').trimStart();
+            items[index].text = e.target.value.replace(/^-\s?\[?\s?\]?/, '').trimStart();
             render();
             focusInput(index);
             return;
@@ -178,7 +189,7 @@
               render();
               focusInput(index);
             } else {
-              items.splice(index + 1, 0, { type: item.type, text: '', done: false });
+              items.splice(index + 1, 0, { type: 'task', text: '', done: false });
               render();
               focusInput(index + 1);
             }
@@ -194,13 +205,18 @@
 
         row.appendChild(input);
         container.appendChild(row);
+        autoResize(input);
       });
     }
 
     function focusInput(index) {
       setTimeout(() => {
         const inputs = container.querySelectorAll('.item-input');
-        if (inputs[index]) inputs[index].focus();
+        if (inputs[index]) {
+          inputs[index].focus();
+          inputs[index].selectionStart = inputs[index].value.length;
+          inputs[index].selectionEnd = inputs[index].value.length;
+        }
       }, 10);
     }
 
