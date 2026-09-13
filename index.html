@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuJo</title>
+  
+  <!-- Icono embebido (Cuaderno 📓 sobre fondo oscuro) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+CiAgPHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPgogIDxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPgogIDx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+📓PC90ZXh0Pgo8L3N2Zz4=">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+CiAgPHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPgogIDxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPgogIDx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+📓PC90ZXh0Pgo8L3N2Zz4=">
+
+  <!-- Configuración de App Instalable para Android -->
+  <link rel="manifest" href='data:application/json;utf8,{"name":"BuJo","short_name":"BuJo","start_url":".","display":"standalone","background_color":"#0b0c0e","theme_color":"#0b0c0e","icons":[{"src":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiI+CiAgPHJlY3Qgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHJ4PSI2MCIgZmlsbD0iIzBiMGMwZSIvPgogIDxjaXJjbGUgY3g9IjEyOCIgY3k9IjEyOCIgcj0iMTAwIiBmaWxsPSIjMTYxODFkIiBzdHJva2U9IiMyNjI5MzAiIHN0cm9rZS13aWR0aD0iNCIvPgogIDx0ZXh0IHg9IjEyOCIgeT0iMTUwIiBmb250LXNpemU9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+📓PC90ZXh0Pgo8L3N2Zz4=","sizes":"192x192","type":"image/svg+xml"}]}'>
+
+  <style>
+    :root {
+      --bg-color: #0b0c0e;
+      --text-color: #e2e8f0;
+      --accent-color: #38bdf8;
+      --panel-bg: #16181d;
+      --dot-color: rgba(255, 255, 255, 0.15);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .container {
+      flex: 1;
+      max-width: 650px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    textarea {
+      flex: 1;
+      width: 100%;
+      min-height: 70vh;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-color);
+      font-size: 16px;
+      line-height: 1.6;
+      resize: none;
+      font-family: inherit;
+    }
+    .status-panel {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: var(--panel-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .stat-row { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 4px; }
+    .stat-value { color: var(--accent-color); font-weight: bold; }
+    .time-left { font-size: 11px; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <textarea id="editor" placeholder="Escribe tus notas de hoy...&#10;- [ ] Usa guión + corchete para tareas"></textarea>
+  </div>
+
+  <div class="status-panel">
+    <div class="stat-row"><span>Caracteres:</span> <span id="char-count" class="stat-value">0</span></div>
+    <div class="stat-row"><span>Palabras:</span> <span id="word-count" class="stat-value">0</span></div>
+    <div class="stat-row"><span>Cerradas hoy:</span> <span id="closed-count" class="stat-value">0</span></div>
+    <div class="time-left" id="timer">Expira a las 2:00 AM</div>
+  </div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const charCount = document.getElementById('char-count');
+    const wordCount = document.getElementById('word-count');
+    const closedCount = document.getElementById('closed-count');
+    const timerDisplay = document.getElementById('timer');
+
+    function getResetTimestamp() {
+      const now = new Date();
+      const reset = new Date();
+      reset.setHours(2, 0, 0, 0);
+      if (now >= reset) {
+        reset.setDate(reset.getDate() + 1);
+      }
+      return reset.getTime();
+    }
+
+    function checkExpiration() {
+      const lastReset = localStorage.getItem('bujo_last_reset');
+      const now = new Date();
+      
+      const prevReset = new Date();
+      if (now.getHours() < 2) {
+        prevReset.setDate(prevReset.getDate() - 1);
+      }
+      prevReset.setHours(2, 0, 0, 0);
+
+      if (!lastReset || parseInt(lastReset) < prevReset.getTime()) {
+        localStorage.setItem('bujo_text', '');
+        localStorage.setItem('bujo_closed_today', '0');
+        localStorage.setItem('bujo_last_reset', now.getTime().toString());
+        editor.value = '';
+      }
+    }
+
+    function updateStats() {
+      const text = editor.value;
+      charCount.textContent = text.length;
+      wordCount.textContent = text.trim() ? text.trim().split(/\s+/).length : 0;
+      closedCount.textContent = localStorage.getItem('bujo_closed_today') || '0';
+    }
+
+    function updateTimer() {
+      const now = new Date();
+      const resetTime = getResetTimestamp();
+      const diffMs = resetTime - now.getTime();
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      timerDisplay.textContent = `Expira en ${hours}h ${mins}m (2:00 AM)`;
+    }
+
+    editor.addEventListener('input', (e) => {
+      let val = editor.value;
+      
+      val = val.replace(/^-\s?\[\]/gm, '- [ ] ');
+      val = val.replace(/^-\[\s/gm, '- [ ] ');
+      
+      if (val.includes('- [x]') || val.includes('- [X]')) {
+        let closed = parseInt(localStorage.getItem('bujo_closed_today') || '0');
+        closed++;
+        localStorage.setItem('bujo_closed_today', closed.toString());
+        val = val.replace(/^-\s?\[[xX]\].*$\n?/gm, '');
+      }
+
+      editor.value = val;
+      localStorage.setItem('bujo_text', val);
+      updateStats();
+    });
+
+    checkExpiration();
+    editor.value = localStorage.getItem('bujo_text') || '';
+    updateStats();
+    updateTimer();
+    setInterval(updateTimer, 60000);
+  </script>
+</body>
+</html>
