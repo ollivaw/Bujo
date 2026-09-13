@@ -8,7 +8,7 @@
 
 </div>
 
-### 🩷 Why I Created This App
+## 🩷 Why I Created This App
 
 I built this app to complement my physical bullet journal notebook.
 
@@ -16,18 +16,15 @@ I needed a quick, distraction-free digital space to capture tasks and notes on t
 
 Everything automatically resets at 2:00 AM—this intentional "expiration date" forces you to reflect each evening and migrate only the relevant notes into your physical notebook before the digital page goes blank for a fresh start tomorrow.
 
----
+## ⚡ How It Works
 
-### ⚡ Features
+- **No Digital Clutter:** Automatically resets at 2:00 AM, keeping the space clean and preventing the accumulation of obsolete notes.
+- **Local Storage:** All entries are stored locally on the device via `localStorage` without cloud tracking or external databases.
+- **Cross-Platform Access:** Works via browser or installable as a web app (PWA) on mobile and desktop.
+- **Minimal Interface:** Dark mode, dot-grid layout, monospace font, and `#f4b8e4` pink accents.
 
-* **Ephemeral Daily Log:** Automatically resets at 2:00 AM to encourage daily evening migration.
-* **Privacy First:** Powered by `localStorage`. Your data never leaves your device.
-* **Native Experience:** PWA ready—installable on Android, iOS, and PC.
-* **Aesthetic:** Dark mode, dot-grid background, monospace font, and `#f4b8e4` pink accents.
+![Ephemeral BuJo Page Screenshot](preview.png)
 
----
+## 📝 Live App
 
-### 📝 Live App
-
-> **[Launch Ephemeral BuJo Page ➔](https://ollivaw.github.io/Bujo/)**
-
+[Launch Ephemeral BuJo Page ➔](https://ollivaw.github.io/Bujo/)
