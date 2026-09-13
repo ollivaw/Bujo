@@ -124,7 +124,6 @@
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const year = now.getFullYear();
       
-      // Formato: Sábado, 13/09/2026
       dateDisplay.textContent = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)}, ${day}/${month}/${year}`;
     }
 
@@ -139,6 +138,8 @@
         items = [{ type: 'task', text: '', done: false }];
         localStorage.setItem('bujo_last_reset', now.getTime().toString());
         saveItems();
+        displayDate();
+        render();
       }
     }
 
@@ -240,6 +241,8 @@
     }
 
     function updateTimer() {
+      checkExpiration(); // Verifica automáticamente si ya pasaron las 2 AM
+
       const now = new Date();
       const reset = new Date();
       reset.setHours(2, 0, 0, 0);
@@ -251,12 +254,21 @@
       timerDisplay.textContent = `Expira en ${hours}h ${mins}m (2:00 AM)`;
     }
 
+    // Revisa también cuando la pantalla se vuelve a encender o abres la app
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        checkExpiration();
+        displayDate();
+        updateTimer();
+      }
+    });
+
     displayDate();
     checkExpiration();
     loadItems();
     render();
     updateTimer();
-    setInterval(updateTimer, 60000);
+    setInterval(updateTimer, 30000); // Revisa cada 30 segundos
   </script>
 </body>
 </html>
