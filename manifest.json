@@ -7,9 +7,9 @@
   "theme_color": "#0b0c0e",
   "icons": [
     {
-      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 256 256'><rect width='256' height='256' rx='60' fill='%230b0c0e'/><text x='128' y='170' font-size='150' text-anchor='middle'>📓</text></svg>",
+      "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
